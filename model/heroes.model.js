@@ -15,7 +15,7 @@ var heroesSchema = new mongoose.Schema({
     img: String,
     aparicion: String,
     casa: String,
-    activo: Boolean
+    estado: Boolean
 });
 
 db.heroes = mongoose.model('heroes', heroesSchema, 'Heroes');

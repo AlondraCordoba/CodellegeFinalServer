@@ -1,6 +1,7 @@
 /////////////CONTROLLER////////////
 const db = require("../model/heroes.model.js");
 const Heroe = db.heroes;
+const fs = require('fs');
 
 //CREATE OPERATION
 exports.create = (req, res) => {
@@ -9,7 +10,6 @@ exports.create = (req, res) => {
         req.status(400).send({ message: "El contenido no puede estar vacío." });
         return;
     }
-
     var aux = 0;
     Heroe.findOne().sort({ _id: -1 }).then(data => {
         var aux = parseInt(data._id) + 1;
@@ -21,11 +21,11 @@ exports.create = (req, res) => {
             img: req.body.img,
             aparicion: req.body.aparicion,
             casa: req.body.casa,
-            estado: "activo"
+            estado: true
         });
-
         heroe.save()
             .then((data) => {
+                //this.img = new File(`assets/img/${data.img}`)
                 res.send(data);
             })
             .catch((err) => {
@@ -69,7 +69,7 @@ exports.findSome = (req, res) => {
             $regex: new RegExp(termino), //Que lo que tengan nombre y termino sean parecidos
             $options: "i",
         },
-        estado: "activo",
+        estado: true,
     } : {};
     Heroe.find(query)
         .then((data) => {
@@ -81,7 +81,7 @@ exports.findSome = (req, res) => {
 };
 
 exports.findActive = (req, res) => {
-    Heroe.find({ estado: "activo" })
+    Heroe.find({ estado: true })
         .then((data) => {
             res.send(data);
         })
@@ -117,7 +117,7 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
     const id = req.params.id;
 
-    Heroe.findOneAndUpdate(id, { activo: false }, {
+    Heroe.findByIdAndUpdate(id, { estado: false }, {
             useFindAndModify: false
         })
         .then(data => {

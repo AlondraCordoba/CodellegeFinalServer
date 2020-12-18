@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 app.use('/', router);
 
-// Habilita CORS
+/* Habilita CORS
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader(
@@ -34,8 +34,7 @@ app.use((req, res, next) => {
         'GET, POST, PATCH, PUT, DELETE, OPTIONS'
     );
     next();
-});
-
+});*/
 const db = require("./model/heroes.model")
 console.log(db.url);
 db.mongoose.connect(db.url, {
